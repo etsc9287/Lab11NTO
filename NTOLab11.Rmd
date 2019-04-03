@@ -11,7 +11,11 @@ library(tidyverse)
 library(babynames)
 library(stringr)
 data1 <- babynames::babynames
+```
 
+```{r,echo=FALSE}
+
+#Ethan ind
 data2 <- data1 %>%
   filter(str_detect(data1$name, "^Eth")) %>%
   group_by(year) %>%
@@ -44,26 +48,30 @@ Ethan_versions <- data1 %>%
 prop_change_1999 = 0.00637829 - 0.00569811 #Eth...n prop 2017 - Eth...n prop 1999 = 0.00068
 prop_change_1980 = 0.00569811 - 0.00038059 #Eth...n prop 1999 - Eth...n prop 1980 = 0.00532
 
+```
 
+```{r,echo=FALSE}
 #Ariel / Rachel Regexs
 
 arielRachel <- data1 %>%
   filter(year == 1973 | year == 1988 | year == 1990 | year == 2017) %>%
   filter(sex == "F") %>%
-  filter(str_detect(data1$name, "^Ari.l") | str_detect(data1$name, "^Rach.l")) %>%
+  filter(str_detect(name, "^Ari.l") | str_detect(name, "^Rach.l")) %>%
   arrange(year, name)
 
 #This tibble displays various versions of the female names similar to "Ariel" and "Rachel" in
-#1973, 1988, 1990, 2017.  (Right now, this is buggy when I run it but it was fine before... very strange)
+#1973, 1988, 1990, 2017, arranged accordingly.
 
 arielRachel2 <- arielRachel %>%
   group_by(year) %>%
   summarise(prop = sum(prop))
 
-#This tibble displays the probabilities of versions of the names "Ariel" and "Rachel" occuring
-#out of all names in the given years.  This will show wrong results if arielRachel fails.
+#This tibble displays the probabilities of versions of the names "Ariel" or "Rachel" occuring
+#out of all names in the given years. 
 
+```
 
+```{r,echo=FALSE}
 #The Little Mermaid Effect
 
 ariel_change <- data1 %>%
