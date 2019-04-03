@@ -5,26 +5,95 @@ date: "4/2/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r,echo=FALSE, include=FALSE}
+
+library(tidyverse)
+library(babynames)
+library(stringr)
+data1 <- babynames::babynames
+
+data2 <- data1 %>%
+  filter(str_detect(data1$name, "^Eth")) %>%
+  group_by(year) %>%
+  summarise(proportion = sum(prop))
+
+data3 <- data1 %>%
+  filter(str_detect(data1$name, "^Ethan$")) %>%
+  group_by(year) %>%
+  summarise(proportion = sum(prop))
+
+ggplot() +
+  geom_line(data = data2, mapping = aes(x = year, y = proportion), color = "blue") +
+  geom_line(data = data3, mapping = aes(x = year, y = proportion), color = "red") +
+  xlab("Year") +
+  ylab("Name Proportion") +
+  ggtitle("Time Series of Ethan and Names Beginning With Eth", subtitle = "Blue = Names Starting With Eth; Red = Ethan")
+
+#My name was becoming incredibly popular when I was born in 1999, and it still makes up nearly 
+#all of the names starting with "Eth".  However, the name has been declining since 2002 when it 
+#hit its peak at a proportion of 0.0107.  In 2017, the proportion of "Eth" names was 0.0064 and 
+#the proportion of "Ethan" was 0.0063.  This means that 98.4% of all names starting with "Eth" 
+#are "Ethan".  My name appeared to begin rapidly gain popularity around the 1990's.
+
+Ethan_versions <- data1 %>%
+  filter(str_detect(data1$name, "^Eth.n$")) %>% #Ethan, Ethyn, Ethin, Ethon, etc.
+  group_by(year) %>%
+  summarise(proportion = sum(prop))
+
+#absolute change in proportions
+prop_change_1999 = 0.00637829 - 0.00569811 #Eth...n prop 2017 - Eth...n prop 1999 = 0.00068
+prop_change_1980 = 0.00569811 - 0.00038059 #Eth...n prop 1999 - Eth...n prop 1980 = 0.00532
+
+
+#Ariel / Rachel Regexs
+
+arielRachel <- data1 %>%
+  filter(year == 1973 | year == 1988 | year == 1990 | year == 2017) %>%
+  filter(sex == "F") %>%
+  filter(str_detect(data1$name, "^Ari.l") | str_detect(data1$name, "^Rach.l")) %>%
+  arrange(year, name)
+
+#This tibble displays various versions of the female names similar to "Ariel" and "Rachel" in
+#1973, 1988, 1990, 2017.  (Right now, this is buggy when I run it but it was fine before... very strange)
+
+arielRachel2 <- arielRachel %>%
+  group_by(year) %>%
+  summarise(prop = sum(prop))
+
+#This tibble displays the probabilities of versions of the names "Ariel" and "Rachel" occuring
+#out of all names in the given years.  This will show wrong results if arielRachel fails.
+
+
+#The Little Mermaid Effect
+
+ariel_change <- data1 %>%
+  filter(str_detect(data1$name, "^Ari.l")) %>%
+  filter(year == 1988 | year == 1989 | year == 1990) %>%
+  filter(sex == "F") %>% #Shows change in proportion of "Ariel" and similar from 1988-1990
+  group_by(year) %>%
+  summarise(prop = sum(prop)) 
+
+first_vowel_change <- data1 %>%
+  filter(str_detect(data1$name, "^[A|E|I|O|U]")) %>%
+  filter(year == 1988 | year == 1989 | year == 1990) %>%
+  filter(sex == "F") %>% #Shows change in proportion of names starting with a vowel from 1988-1990
+  group_by(year) %>%
+  summarise(prop = sum(prop))
+
+ggplot() +
+  geom_line(data = ariel_change, mapping = aes(x = year, y = prop)) +
+  xlab("Year") +
+  ylab("Name Proportion") + #Ariel Graph
+  ggtitle("Time Series of Ariel Name Proportion (1988-1990)")
+
+ggplot() +
+  geom_line(data = first_vowel_change, mapping = aes(x = year, y = prop)) +
+  xlab("Year") +
+  ylab("Name Proportion") + #Starting With Vowel Graph
+  ggtitle("Time Series of Name proportion Starting With a Vowel (1988-1990)")
+
+#Findings: Little significance between two graphs, Ariel name proportion change and vowel
+#starting name proportion change show similar movement in 1988-1990.  
+
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
