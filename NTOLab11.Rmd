@@ -64,6 +64,15 @@ are "Ethan".  My name appeared to begin rapidly gain popularity around the 1990'
 ****
 ```{r,echo=FALSE}
 
+dav <- data1 %>% filter(str_detect(name, "^Dav")) %>% group_by(year) %>% summarise(count = sum(n))
+david <- data1 %>% filter(str_detect(name,"^[D]avi[d]$")) %>% group_by(year) %>% summarise(count = sum(n)) 
+
+ggplot()+
+  geom_line(data = david, mapping = aes(x = year, y = count), color = "blue")+
+    geom_line(data = dav, mapping = aes(x = year, y = count), color = "red") + ggtitle("Time Series of 'Dav' and 'David' names") 
+
+## daov <- data1 %>% filter(str_detect(name, "^Dav")) %>% group_by(name) %>% count()
+
 ```
 
 **** 
@@ -96,7 +105,6 @@ arielRachel2 <- arielRachel %>%
   group_by(year) %>%
   summarise(prop = sum(prop))
 as_tibble(arielRachel2)
-
 
 ```
 
