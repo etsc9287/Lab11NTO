@@ -13,9 +13,11 @@ library(stringr)
 data1 <- babynames::babynames
 ```
 
+**** 
+#### Ethan's Section
+****
 ```{r,echo=FALSE}
 
-#Ethan ind
 data2 <- data1 %>%
   filter(str_detect(data1$name, "^Eth")) %>%
   group_by(year) %>%
@@ -33,12 +35,6 @@ ggplot() +
   ylab("Name Proportion") +
   ggtitle("Time Series of Ethan and Names Beginning With Eth", subtitle = "Blue = Names Starting With Eth; Red = Ethan")
 
-#My name was becoming incredibly popular when I was born in 1999, and it still makes up nearly 
-#all of the names starting with "Eth".  However, the name has been declining since 2002 when it 
-#hit its peak at a proportion of 0.0107.  In 2017, the proportion of "Eth" names was 0.0064 and 
-#the proportion of "Ethan" was 0.0063.  This means that 98.4% of all names starting with "Eth" 
-#are "Ethan".  My name appeared to begin rapidly gain popularity around the 1990's.
-
 Ethan_versions <- data1 %>%
   filter(str_detect(data1$name, "^Eth.n$")) %>% #Ethan, Ethyn, Ethin, Ethon, etc.
   group_by(year) %>%
@@ -50,29 +46,67 @@ prop_change_1980 = 0.00569811 - 0.00038059 #Eth...n prop 1999 - Eth...n prop 198
 
 ```
 
+* My name was becoming incredibly popular when I was born in 1999, and it still makes up nearly
+all of the names starting with "Eth".  However, the name has been declining since 2002 when it 
+hit its peak at a proportion of 0.0107.  In 2017, the proportion of "Eth" names was 0.0064 and 
+the proportion of "Ethan" was 0.0063.  This means that 98.4% of all names starting with "Eth" 
+are "Ethan".  My name appeared to begin rapidly gain popularity around the 1990's.
+
+**** 
+#### Arie's Section
+****
 ```{r,echo=FALSE}
-#Ariel / Rachel Regexs
+
+```
+
+**** 
+#### David's Section
+****
+```{r,echo=FALSE}
+
+```
+
+**** 
+#### Anderson's Section
+****
+```{r,echo=FALSE}
+
+```
+
+**** 
+#### Ryan's Section
+****
+```{r,echo=FALSE}
+
+```
+
+**** 
+#### Ariel / Rachel Regex
+****
+```{r,echo=FALSE}
 
 arielRachel <- data1 %>%
   filter(year == 1973 | year == 1988 | year == 1990 | year == 2017) %>%
   filter(sex == "F") %>%
   filter(str_detect(name, "^Ari.l") | str_detect(name, "^Rach.l")) %>%
   arrange(year, name)
-
-#This tibble displays various versions of the female names similar to "Ariel" and "Rachel" in
-#1973, 1988, 1990, 2017, arranged accordingly.
+as_tibble(arielRachel)
 
 arielRachel2 <- arielRachel %>%
   group_by(year) %>%
   summarise(prop = sum(prop))
+as_tibble(arielRachel2)
 
-#This tibble displays the probabilities of versions of the names "Ariel" or "Rachel" occuring
-#out of all names in the given years. 
 
 ```
 
+* The first tibble displays various versions of the female names similar to "Ariel" and "Rachel" in 1973, 1988, 1990, 2017, arranged accordingly.  There were 7 versions of "Ariel" and 9 versions of "Rachel" in 1988, for example.
+* The second tibble displays the probabilities of versions of the names "Ariel" or "Rachel" occuring out of all names in the given years. The year where Ariel or Rachel (or any versions) appear the most popular is 1990 at 0.01.
+
+**** 
+#### The Little Mermaid Effect
+****
 ```{r,echo=FALSE}
-#The Little Mermaid Effect
 
 ariel_change <- data1 %>%
   filter(str_detect(data1$name, "^Ari.l")) %>%
@@ -82,7 +116,7 @@ ariel_change <- data1 %>%
   summarise(prop = sum(prop)) 
 
 first_vowel_change <- data1 %>%
-  filter(str_detect(data1$name, "^[A|E|I|O|U]")) %>%
+  filter(str_detect(data1$name, "^[AEIOU]")) %>%
   filter(year == 1988 | year == 1989 | year == 1990) %>%
   filter(sex == "F") %>% #Shows change in proportion of names starting with a vowel from 1988-1990
   group_by(year) %>%
@@ -99,9 +133,6 @@ ggplot() +
   xlab("Year") +
   ylab("Name Proportion") + #Starting With Vowel Graph
   ggtitle("Time Series of Name proportion Starting With a Vowel (1988-1990)")
-
-#Findings: Little significance between two graphs, Ariel name proportion change and vowel
-#starting name proportion change show similar movement in 1988-1990.  
-
 ```
 
+* Findings: The appears to be little significance between the two graphs, Ariel name proportion change and vowel starting name proportion change show similar movement in 1988-1990. 
