@@ -139,32 +139,6 @@ as_tibble(arielRachel2)
 ****
 ```{r,echo=FALSE}
 
-ariel_change <- data1 %>%
-  filter(str_detect(data1$name, "^Ari.l")) %>%
-  filter(year == 1988 | year == 1989 | year == 1990) %>%
-  filter(sex == "F") %>% #Shows change in proportion of "Ariel" and similar from 1988-1990
-  group_by(year) %>%
-  summarise(prop = sum(prop)) 
-
-first_vowel_change <- data1 %>%
-  filter(str_detect(data1$name, "^[AEIOU]")) %>%
-  filter(year == 1988 | year == 1989 | year == 1990) %>%
-  filter(sex == "F") %>% #Shows change in proportion of names starting with a vowel from 1988-1990
-  group_by(year) %>%
-  summarise(prop = sum(prop))
-
-ggplot() +
-  geom_line(data = ariel_change, mapping = aes(x = year, y = prop)) +
-  xlab("Year") +
-  ylab("Name Proportion") + #Ariel Graph
-  ggtitle("Time Series of Ariel Name Proportion (1988-1990)")
-
-ggplot() +
-  geom_line(data = first_vowel_change, mapping = aes(x = year, y = prop)) +
-  xlab("Year") +
-  ylab("Name Proportion") + #Starting With Vowel Graph
-  ggtitle("Time Series of Name proportion Starting With a Vowel (1988-1990)")
-
 ariel_1988 <- data1%>%
   filter(year == 1988) %>%
   filter(sex == "F")%>%
@@ -180,15 +154,25 @@ poop <- inner_join(ariel_1988, ariel_1990, by = "name") %>%
 
 poop2 <- poop %>%
   select(name, difference) %>%
-  arrange(desc(difference))
+  arrange(desc(difference)) %>%
+  filter(difference > 0.0005)
 
 percentile <- 1538/1540
 percentile
+
+ggplot() +
+  geom_point(data = poop2, mapping = aes(x = difference, y = fct_reorder(name, difference))) +
+  xlab("Proportion Difference") +
+  ylab("Name") +
+  ggtitle("Proportion Difference for Female Names Starting With a Vowel (1988-1990)")
 
 ```
 
 * Findings: There is a significant difference in the change in proportion of "Ariel" names compared to the change in proportion of names starting with a vowel from 1988 to 1990.  Ariel was in the 99.9 percentile for this change with a difference of 0.00128231, only behind "Alyssa".  This graph shows the most increasingly popular names from 1988 to 1990 in the order of greatest proportion difference.
 
+**** 
+#### Names Team Section
+****
 ```{r, echo = FALSE} 
 teamd <- data1 %>% filter(name == "David",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
 teama <- data1 %>% filter(name == "Arie",year >=1996,sex == "F") %>% mutate(diff = (prop - prop[1])) 
@@ -197,13 +181,10 @@ teamr <- data1 %>% filter(name == "Ryan",year >=1997,sex == "M") %>% mutate(diff
 teaman <- data1 %>% filter(name == "Anderson",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
 teamx <- teamr %>% full_join(teamd) %>% full_join(teame) %>% full_join(teama) %>% full_join(teaman) 
  
- 
- 
- 
- 
 ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+ 
   geom_line(size = 1)+ggtitle("Popularity of Names") +xlab("Year")+ ylab("Popularity Difference") 
- 
- 
- 
 ```
+
+**** 
+#### Who Did What
+****
