@@ -119,32 +119,6 @@ as_tibble(arielRachel2)
 ****
 ```{r,echo=FALSE}
 
-ariel_change <- data1 %>%
-  filter(str_detect(data1$name, "^Ari.l")) %>%
-  filter(year == 1988 | year == 1989 | year == 1990) %>%
-  filter(sex == "F") %>% #Shows change in proportion of "Ariel" and similar from 1988-1990
-  group_by(year) %>%
-  summarise(prop = sum(prop)) 
-
-first_vowel_change <- data1 %>%
-  filter(str_detect(data1$name, "^[AEIOU]")) %>%
-  filter(year == 1988 | year == 1989 | year == 1990) %>%
-  filter(sex == "F") %>% #Shows change in proportion of names starting with a vowel from 1988-1990
-  group_by(year) %>%
-  summarise(prop = sum(prop))
-
-ggplot() +
-  geom_line(data = ariel_change, mapping = aes(x = year, y = prop)) +
-  xlab("Year") +
-  ylab("Name Proportion") + #Ariel Graph
-  ggtitle("Time Series of Ariel Name Proportion (1988-1990)")
-
-ggplot() +
-  geom_line(data = first_vowel_change, mapping = aes(x = year, y = prop)) +
-  xlab("Year") +
-  ylab("Name Proportion") + #Starting With Vowel Graph
-  ggtitle("Time Series of Name proportion Starting With a Vowel (1988-1990)")
-
 ariel_1988 <- data1%>%
   filter(year == 1988) %>%
   filter(sex == "F")%>%
@@ -160,11 +134,18 @@ poop <- inner_join(ariel_1988, ariel_1990, by = "name") %>%
 
 poop2 <- poop %>%
   select(name, difference) %>%
-  arrange(desc(difference))
+  arrange(desc(difference)) %>%
+  filter(difference > 0.0005)
 
 percentile <- 1538/1540
-percentile
+
+ggplot() +
+  geom_point(data = poop2, mapping = aes(x = difference, y = fct_reorder(name, difference))) +
+  xlab("Proportion Difference") +
+  ylab("Name") +
+  ggtitle("Proportion Difference for Female Names Starting With a Vowel (1988-1990)")
+  
 
 ```
 
-* Findings: The appears to be little significance between the two graphs, Ariel name proportion change and vowel starting name proportion change show similar movement in 1988-1990. 
+* Findings: The appears to be great significance between the change in proportion of "Ariel" names and the change in proportion of all names that start wuth a vowel, as Ariel is the 99.8th percentile at a difference of 0.00128231, only behind "Alyssa".  This graph displays these propotion difference for the most increasingly popula female names from 1988 to 1990. 
