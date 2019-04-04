@@ -56,8 +56,28 @@ are "Ethan".  My name appeared to begin rapidly gain popularity around the 1990'
 #### Arie's Section
 ****
 ```{r,echo=FALSE}
+### filter names that start with "Ari" from 1880 - 2017 ###
+babynamesAri <- data1 %>%
+  filter(str_detect(name, "^Ari"))%>%
+  group_by(year)%>%
+  summarise(Prop = sum(prop))
+
+### filter year and probability of "Ariadne" ###
+Ariadne <- data1 %>%
+  filter(str_detect(name, "^Ariadne$"))%>%
+  group_by(year)%>%
+  summarise(Prop = sum(prop))
+
+### Individual plot ###
+
+ggplot() +
+  geom_line(data = babynamesAri, mapping = aes(x = year, y = Prop), color = "red") +
+  geom_line(data = Ariadne, mapping = aes(x = year, y = Prop), color = "purple") +
+  xlab("Year")+ylab("Name Proportion")+ggtitle("Popularity of Ariadne and 'Ari'(1880-2017)", subtitle = "(Red = 'Ari', Purple = Ariadne)")
 
 ```
+
+* I used the regular expression `^Ariadne$` to look for my name. My name now is more popular now compared to when I was born. In the graph you can see a slight increase after 1996. My name is very unpopular now compared to the names that start with "Ari". Represented in the graph, you can see a large difference in proportions between the red line and purple line.
 
 **** 
 #### David's Section
@@ -119,6 +139,32 @@ as_tibble(arielRachel2)
 ****
 ```{r,echo=FALSE}
 
+ariel_change <- data1 %>%
+  filter(str_detect(data1$name, "^Ari.l")) %>%
+  filter(year == 1988 | year == 1989 | year == 1990) %>%
+  filter(sex == "F") %>% #Shows change in proportion of "Ariel" and similar from 1988-1990
+  group_by(year) %>%
+  summarise(prop = sum(prop)) 
+
+first_vowel_change <- data1 %>%
+  filter(str_detect(data1$name, "^[AEIOU]")) %>%
+  filter(year == 1988 | year == 1989 | year == 1990) %>%
+  filter(sex == "F") %>% #Shows change in proportion of names starting with a vowel from 1988-1990
+  group_by(year) %>%
+  summarise(prop = sum(prop))
+
+ggplot() +
+  geom_line(data = ariel_change, mapping = aes(x = year, y = prop)) +
+  xlab("Year") +
+  ylab("Name Proportion") + #Ariel Graph
+  ggtitle("Time Series of Ariel Name Proportion (1988-1990)")
+
+ggplot() +
+  geom_line(data = first_vowel_change, mapping = aes(x = year, y = prop)) +
+  xlab("Year") +
+  ylab("Name Proportion") + #Starting With Vowel Graph
+  ggtitle("Time Series of Name proportion Starting With a Vowel (1988-1990)")
+
 ariel_1988 <- data1%>%
   filter(year == 1988) %>%
   filter(sex == "F")%>%
@@ -134,18 +180,11 @@ poop <- inner_join(ariel_1988, ariel_1990, by = "name") %>%
 
 poop2 <- poop %>%
   select(name, difference) %>%
-  arrange(desc(difference)) %>%
-  filter(difference > 0.0005)
+  arrange(desc(difference))
 
 percentile <- 1538/1540
-
-ggplot() +
-  geom_point(data = poop2, mapping = aes(x = difference, y = fct_reorder(name, difference))) +
-  xlab("Proportion Difference") +
-  ylab("Name") +
-  ggtitle("Proportion Difference for Female Names Starting With a Vowel (1988-1990)")
-  
+percentile
 
 ```
 
-* Findings: The appears to be great significance between the change in proportion of "Ariel" names and the change in proportion of all names that start wuth a vowel, as Ariel is the 99.8th percentile at a difference of 0.00128231, only behind "Alyssa".  This graph displays these propotion difference for the most increasingly popula female names from 1988 to 1990. 
+* Findings: The appears to be little significance between the two graphs, Ariel name proportion change and vowel starting name proportion change show similar movement in 1988-1990. 
