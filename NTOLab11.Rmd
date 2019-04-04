@@ -187,4 +187,4 @@ percentile
 
 ```
 
-* Findings: The appears to be little significance between the two graphs, Ariel name proportion change and vowel starting name proportion change show similar movement in 1988-1990. 
+* Findings: There is a significant difference in the change in proportion of "Ariel" names compared to the change in proportion of names starting with a vowel from 1988 to 1990.  Ariel was in the 99.9 percentile for this change with a difference of 0.00128231, only behind "Alyssa".  This graph shows the most increasingly popular names from 1988 to 1990 in the order of greatest proportion difference.
