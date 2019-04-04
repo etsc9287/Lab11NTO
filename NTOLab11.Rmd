@@ -144,6 +144,27 @@ ggplot() +
   xlab("Year") +
   ylab("Name Proportion") + #Starting With Vowel Graph
   ggtitle("Time Series of Name proportion Starting With a Vowel (1988-1990)")
+
+ariel_1988 <- data1%>%
+  filter(year == 1988) %>%
+  filter(sex == "F")%>%
+  filter(str_detect(name, "^[AEIOU]"))
+
+ariel_1990 <- data1%>%
+  filter(year == 1990) %>%
+  filter(sex == "F")%>%
+  filter(str_detect(name, "^[AEIOU]"))
+
+poop <- inner_join(ariel_1988, ariel_1990, by = "name") %>%
+  mutate(difference = `prop.y` - `prop.x`) 
+
+poop2 <- poop %>%
+  select(name, difference) %>%
+  arrange(desc(difference))
+
+percentile <- 1538/1540
+percentile
+
 ```
 
 * Findings: The appears to be little significance between the two graphs, Ariel name proportion change and vowel starting name proportion change show similar movement in 1988-1990. 
