@@ -188,3 +188,22 @@ percentile
 ```
 
 * Findings: There is a significant difference in the change in proportion of "Ariel" names compared to the change in proportion of names starting with a vowel from 1988 to 1990.  Ariel was in the 99.9 percentile for this change with a difference of 0.00128231, only behind "Alyssa".  This graph shows the most increasingly popular names from 1988 to 1990 in the order of greatest proportion difference.
+
+```{r, echo = FALSE} 
+teamd <- data1 %>% filter(name == "David",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
+teama <- data1 %>% filter(name == "Arie",year >=1996,sex == "F") %>% mutate(diff = (prop - prop[1])) 
+teame <- data1 %>% filter(name == "Ethan",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
+teamr <- data1 %>% filter(name == "Ryan",year >=1997,sex == "M") %>% mutate(diff = (prop - prop[1])) 
+teaman <- data1 %>% filter(name == "Anderson",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
+teamx <- teamr %>% full_join(teamd) %>% full_join(teame) %>% full_join(teama) %>% full_join(teaman) 
+ 
+ 
+ 
+ 
+ 
+ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+ 
+  geom_line(size = 1)+ggtitle("Popularity of Names") +xlab("Year")+ ylab("Popularity Difference") 
+ 
+ 
+ 
+```
