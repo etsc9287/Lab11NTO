@@ -75,6 +75,9 @@ ggplot()+
 
 ```
 
+* The time series of all the names that begin with 'Dav' hug the time series of 'David' name very closely. This means that the popularity of names that begin with 'Dav' is due to the popularity of the name 'David'. As more people were named 'David' variations of 'David' were created but never became a unique and prominent name.
+* The popularity of 'David' was the highest around the 1960s. I was born in 1999 during a decline in 'David' popularity. Personally this makes sense, I have not met many people my age named 'David' but I have met plenty of middle aged people names 'David'.
+
 **** 
 #### Anderson's Section
 ****
