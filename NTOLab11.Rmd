@@ -131,7 +131,33 @@ ggplot() +
 ****
 ```{r,echo=FALSE}
 
+### Proportion of baby names starting with Rya
+ryans <- data1 %>%
+  filter(str_detect(name, "^Rya")) %>%
+  group_by(year) %>%
+  summarise(propy = sum(prop))
+
+### Proportion of babies named Rian, Ryan, Ryann, or Riann
+ryans2 <- data1 %>%
+  filter(str_detect(name, "(^R[yi]an$)|(^R[yi]ann$)")) %>% 
+  group_by(year) %>%
+  summarise(propy2 = sum(prop))
+
+### Individual Plot
+ggplot() +
+  geom_line(data = ryans, mapping = aes(x = year, y = propy),color = 'red') +
+  geom_line(data = ryans2, mapping = aes(x = year, y = propy2),color = 'blue') +
+  xlab("Year") +
+  ylab("Name Proportion") +
+  ggtitle("Proportion Rya and Ryan names", subtitle = "Red = Rya...          Blue = Rian, Ryan, Ryann, or Riann")
+
+
 ```
+
+
+* The regular expressions I used to find most variations of Ryan spellings `(^R[yi]an$)|(^R[yi]ann$)` found when a name was Rian, Riann, Ryan, or Ryann. I was satisfied with this regex becuase the proportion of those names was very close to the proportion of names starting with Rya. This is probably because not a lot of names start with Rya and are not spelled Ryan or Ryann. 
+* My name now is not as popular as it was when I was born, but its popularity ahd been going down since 1985 so I am not that shaken.
+* My name is slightly less popular (.00465 compared to .00470) so I am not that tilted. However, it is very very close and could be the result of my regex not finding all variations of the name Ryan, or I not knowing all the variations. In any case, it should be noted that as the proportions are so close we can probably say that there is no significant difference in the popularity of my name and other names that start with Rya. 
 
 **** 
 #### Ariel / Rachel Regex
@@ -208,7 +234,7 @@ ggplot(data = teamx, mapping = aes(x = year, y = prop, color = name))+
 ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+ 
   geom_line(size = 1)+ggtitle("Popularity Difference in Names") +xlab("Year")+ ylab("Popularity Difference") 
 ```
-* The first graph shows the how the popularity of the names change after the birth year. Ethan, Ryan, and David names were the most popular, and Anderson and Aries where the lease popular.
+* The first graph shows the how the popularity of the names change after the birth year. Ethan, Ryan, and David names were the most popular, and Anderson and Aries where the least popular.
 
 * The second graph shows the popularity difference from the year of birth. For example: If born in 1999, the popularity differnce for 2005 is (popularity in 2005-popularity in 1999). The graph shows the popularity change trends for all names in respect to thier birth year.
 
@@ -218,7 +244,7 @@ ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+
 
 * Because Arie's name is the least popular, it makes sense that there is not a disctict trend. However, the date shows a very slight increase in her name's popularity.
 
-* Both Ryan and David show a steady and steep decrease in popularity compared to thier birth year.
+* Both Ryan and David show a steady and steep decrease in popularity compared to their birth year.
 
 
 **** 
@@ -230,6 +256,6 @@ Anderson-
 
 David- Created the 'Popularity of Names' tibble and graph. Individual section. Editing.
 
-Ryan-
+Ryan- Individual section
 
 Arie-
