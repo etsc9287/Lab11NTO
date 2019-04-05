@@ -249,13 +249,20 @@ ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+
 
 * Both Ryan and David show a steady and steep decrease in popularity compared to their birth year.
 
-```{r}
+```{r, echo=FALSE, warning==FALSE}
 hist <- teamx %>% group_by(name) %>% mutate(birthyear=min(year)) %>% filter(year != birthyear)
 
 ggplot()+
 geom_histogram(data = hist, mapping = aes(x=diff, fill = name), color = "black")
 
 ```
+```{r, echo=FALSE, message = FALSE}
+X <- teamx %>%
+  group_by(name)%>%
+  summarise(max_diff = max(abs(diff)))
+X
+```
+* Explanation: This histogram displays the distribution of the difference in proportions. The names Anderson and Arie display little to no change in proptions since the distribution stays in the middle. This makes sense because these names were the least popular compared to the others. The names David, Ethan, and Ryan show much more variation since the distribution of those names are more spread apart. Daivd and Ryan show a negative decrease in difference, where as Ethan shows the opposite. This makes sense because the names David and Ryan show a decrease in popularity, while the name Ethan has increased in popularity. The tibble above shows that the name Ryan has the greatest difference over the years.
 
 **** 
 #### Who Did What
@@ -268,4 +275,4 @@ David- Created the 'Popularity of Names' tibble and graph. Individual section. E
 
 Ryan- Individual section
 
-Arie- calcualted percentile for Little Mermaid(with help of David and Ethan), ind section
+Arie- calcualted percentile for Little Mermaid(with help of David and Ethan), wrote explanation for you names sectoin,ind section
