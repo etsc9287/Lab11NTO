@@ -224,7 +224,7 @@ ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+
 **** 
 #### Who Did What
 ****
-Ethan-
+Ethan- Ariel/Rachel Regexs, worked on Little Mermaid and made graph, individual section.
 
 Anderson-
 
