@@ -103,8 +103,28 @@ ggplot()+
 #### Anderson's Section
 ****
 ```{r,echo=FALSE}
+### Proportion of baby names starting with And
+md <- data1 %>%
+  filter(str_detect(name, "^And")) %>%
+  group_by(year) %>%
+  summarise(proportion = sum(prop))
 
+### Proportion of babies named Anderson
+mb <- data1 %>%
+  filter(str_detect(name, "^Anderson$")) %>%
+  group_by(year) %>%
+  summarise(proportion = sum(prop))
+
+### Individua Plot
+ggplot() +
+  geom_line(data = md, mapping = aes(x = year, y = proportion),color = 'red') +
+  geom_line(data = mb, mapping = aes(x = year, y = proportion),color = 'green') +
+  xlab("Year") +
+  ylab("Name Proportion") +
+  ggtitle("Proportion of the names And and Anderson", subtitle = "(Red = And, Green = Anderson)")
 ```
+
+* The time series shown on the graph indicates that my name was given to me during a period where its popularity has started to increase a little. The peak of the names starting with the letters "And" were in the 1990s. It's interesting to see that even during the peak of names starting with "And" the name Anderson had little impact from it until later when the proportion of "And" names started to decrease.
 
 **** 
 #### Ryan's Section
