@@ -1,6 +1,6 @@
 ---
 title: "NTOLab11"
-author: "Not Team One"
+author: "Ethan Schacht, Anderson Mun, Ryan Tate, Arie del Valle, David Orozco"
 date: "4/2/2019"
 output: html_document
 ---
@@ -84,18 +84,19 @@ ggplot() +
 ****
 ```{r,echo=FALSE}
 
-dav <- data1 %>% filter(str_detect(name, "^Dav")) %>% group_by(year) %>% summarise(count = sum(n))
-david <- data1 %>% filter(str_detect(name,"^[D]avi[d]$")) %>% group_by(year) %>% summarise(count = sum(n)) 
+dav <- data1 %>% filter(str_detect(name, "^Dav")) %>% group_by(year) %>% summarise(count = sum(prop))
+david <- data1 %>% filter(str_detect(name,"^[D]avi[d]$")) %>% group_by(year) %>% summarise(count = sum(prop)) 
 
 ggplot()+
   geom_line(data = david, mapping = aes(x = year, y = count), color = "blue")+
-    geom_line(data = dav, mapping = aes(x = year, y = count), color = "red") + ggtitle("Time Series of 'Dav' and 'David' names") 
+    geom_line(data = dav, mapping = aes(x = year, y = count), color = "red") + ggtitle("Time Series of 'Dav' and 'David' names", subtitle = "Red = Names Starting With Dav; Blue = David")+ ylab("Name Proportion")
 
 ## daov <- data1 %>% filter(str_detect(name, "^Dav")) %>% group_by(name) %>% count()
 
 ```
 
-* The time series of all the names that begin with 'Dav' hug the time series of 'David' name very closely. This means that the popularity of names that begin with 'Dav' is due to the popularity of the name 'David'. As more people were named 'David' variations of 'David' were created but never became a unique and prominent name.
+* The time series of all the names that begin with 'Dav' hug the time series of 'David' name very closely. This means that the popularity of names that begin with 'Dav' is due to the popularity of the name 'David'. As more people were named 'David' variations of 'David' were created but never became a unique and prominent name. I used `str_detect()` and the regular expressions `^Dav` and `^[D]avi[d]$` to look for the names. 
+
 * The popularity of 'David' was the highest around the 1960s. I was born in 1999 during a decline in 'David' popularity. Personally this makes sense, I have not met many people my age named 'David' but I have met plenty of middle aged people names 'David'.
 
 **** 
@@ -173,7 +174,7 @@ ggplot() +
 **** 
 #### Names Team Section
 ****
-```{r, echo = FALSE} 
+```{r, echo = FALSE, message=FALSE} 
 teamd <- data1 %>% filter(name == "David",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
 teama <- data1 %>% filter(name == "Arie",year >=1996,sex == "F") %>% mutate(diff = (prop - prop[1])) 
 teame <- data1 %>% filter(name == "Ethan",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
@@ -185,6 +186,21 @@ ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+
   geom_line(size = 1)+ggtitle("Popularity of Names") +xlab("Year")+ ylab("Popularity Difference") 
 ```
 
+* The graph above shows the popularity difference fromt the year of birth. For example: If born in 1999, the populariry differnce for 2005 is (popularity in 2005-popularity in 1999). The graph shows the popularity trends for all names in respect to thier birth year.
+* Ethan's name seems to have gained the more popularity in the years after his birth. However, it seems to be returning to its orginal popularity.
+* Anderson's name shows a slight but constant increase in popularity.
+* Because Arie's name is the least popular, it makes sense that there is not a disctict trend. However, the data tibble shows a very slight increase in her name popularity.
+* Both Ryan and David show a steady and steep decrease in popularity compared to thier birth year.
+
 **** 
 #### Who Did What
 ****
+Ethan-
+
+Anderson-
+
+David- Created the 'Popularity of Names' tibble and graph. Individual section. Editing.
+
+Ryan-
+
+Arie-
