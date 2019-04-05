@@ -253,7 +253,7 @@ ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+
 hist <- teamx %>% group_by(name) %>% mutate(birthyear=min(year)) %>% filter(year != birthyear)
 
 ggplot()+
-geom_boxplot(data = hist, mapping = aes(y=diff,x=prop, color = name))
+geom_histogram(data = hist, mapping = aes(x=diff, fill = name), color = "black")
 
 ```
 
@@ -268,4 +268,4 @@ David- Created the 'Popularity of Names' tibble and graph. Individual section. E
 
 Ryan- Individual section
 
-Arie-
+Arie- calcualted percentile for Little Mermaid(with help of David and Ethan), ind section
