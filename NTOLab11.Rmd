@@ -150,10 +150,10 @@ ariel_1990 <- data1%>%
   filter(sex == "F")%>%
   filter(str_detect(name, "^[AEIOU]"))
 
-poop <- inner_join(ariel_1988, ariel_1990, by = "name") %>%
+pop <- inner_join(ariel_1988, ariel_1990, by = "name") %>%
   mutate(difference = `prop.y` - `prop.x`) 
 
-poop2 <- poop %>%
+pop2 <- pop %>%
   select(name, difference) %>%
   arrange(desc(difference)) %>%
   filter(difference > 0.0005)
@@ -162,7 +162,7 @@ percentile <- 1538/1540
 percentile
 
 ggplot() +
-  geom_point(data = poop2, mapping = aes(x = difference, y = fct_reorder(name, difference))) +
+  geom_point(data = pop2, mapping = aes(x = difference, y = fct_reorder(name, difference))) +
   xlab("Proportion Difference") +
   ylab("Name") +
   ggtitle("Proportion Difference for Female Names Starting With a Vowel (1988-1990)")
@@ -181,16 +181,25 @@ teame <- data1 %>% filter(name == "Ethan",year >=1999,sex == "M") %>% mutate(dif
 teamr <- data1 %>% filter(name == "Ryan",year >=1997,sex == "M") %>% mutate(diff = (prop - prop[1])) 
 teaman <- data1 %>% filter(name == "Anderson",year >=1999,sex == "M") %>% mutate(diff = (prop - prop[1])) 
 teamx <- teamr %>% full_join(teamd) %>% full_join(teame) %>% full_join(teama) %>% full_join(teaman) 
- 
-ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+ 
-  geom_line(size = 1)+ggtitle("Popularity of Names") +xlab("Year")+ ylab("Popularity Difference") 
-```
 
-* The graph above shows the popularity difference fromt the year of birth. For example: If born in 1999, the populariry differnce for 2005 is (popularity in 2005-popularity in 1999). The graph shows the popularity trends for all names in respect to thier birth year.
-* Ethan's name seems to have gained the more popularity in the years after his birth. However, it seems to be returning to its orginal popularity.
+ggplot(data = teamx, mapping = aes(x = year, y = prop, color = name))+
+ geom_line(size = 1)+ggtitle("Popularity of Names") +xlab("Year")+ ylab("Popularity")
+
+ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+ 
+  geom_line(size = 1)+ggtitle("Popularity Difference in Names") +xlab("Year")+ ylab("Popularity Difference") 
+```
+* The first graph shows the how the popularity of the names change after the birth year. Ethan, Ryan, and David names were the most popular, and Anderson and Aries where the lease popular.
+
+* The second graph shows the popularity difference from the year of birth. For example: If born in 1999, the popularity differnce for 2005 is (popularity in 2005-popularity in 1999). The graph shows the popularity change trends for all names in respect to thier birth year.
+
+* Ethan's name seems to have gained the more popularity in the years after his birth. However, it seems to be returning to its orginal popularity(Popularity difference = 0 is orginal popularity at birth).
+
 * Anderson's name shows a slight but constant increase in popularity.
-* Because Arie's name is the least popular, it makes sense that there is not a disctict trend. However, the data tibble shows a very slight increase in her name popularity.
+
+* Because Arie's name is the least popular, it makes sense that there is not a disctict trend. However, the date shows a very slight increase in her name's popularity.
+
 * Both Ryan and David show a steady and steep decrease in popularity compared to thier birth year.
+
 
 **** 
 #### Who Did What
