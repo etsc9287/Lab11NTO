@@ -13,6 +13,7 @@ library(stringr)
 data1 <- babynames::babynames
 ```
 
+### Individual Sections
 **** 
 #### Ethan's Section
 ****
@@ -159,6 +160,7 @@ ggplot() +
 * My name now is not as popular as it was when I was born, but its popularity ahd been going down since 1985 so I am not that shaken.
 * My name is slightly less popular (.00465 compared to .00470) so I am not that tilted. However, it is very very close and could be the result of my regex not finding all variations of the name Ryan, or I not knowing all the variations. In any case, it should be noted that as the proportions are so close we can probably say that there is no significant difference in the popularity of my name and other names that start with Rya. 
 
+### Team Sections
 **** 
 #### Ariel / Rachel Regex
 ****
@@ -234,6 +236,7 @@ ggplot(data = teamx, mapping = aes(x = year, y = prop, color = name))+
 ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+ 
   geom_line(size = 1)+ggtitle("Popularity Difference in Names") +xlab("Year")+ ylab("Popularity Difference") 
 ```
+
 * The first graph shows the how the popularity of the names change after the birth year. Ethan, Ryan, and David names were the most popular, and Anderson and Aries where the least popular.
 
 * The second graph shows the popularity difference from the year of birth. For example: If born in 1999, the popularity differnce for 2005 is (popularity in 2005-popularity in 1999). The graph shows the popularity change trends for all names in respect to thier birth year.
@@ -246,13 +249,20 @@ ggplot(data = teamx, mapping = aes(x = year, y= diff,color = name))+
 
 * Both Ryan and David show a steady and steep decrease in popularity compared to their birth year.
 
+```{r}
+hist <- teamx %>% group_by(name) %>% mutate(birthyear=min(year)) %>% filter(year != birthyear)
+
+ggplot()+
+geom_boxplot(data = hist, mapping = aes(y=diff,x=prop, color = name))
+
+```
 
 **** 
 #### Who Did What
 ****
 Ethan- Ariel/Rachel Regexs, worked on Little Mermaid and made graph, individual section.
 
-Anderson-
+Anderson- Individual section
 
 David- Created the 'Popularity of Names' tibble and graph. Individual section. Editing.
 
